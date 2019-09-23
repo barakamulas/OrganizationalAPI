@@ -1,4 +1,4 @@
 package models.dao;
 
-public class Sql2oScopedarticleDao {
+public class Sql2oScopedarticleDao implements ScopedarticleDao {
 }
