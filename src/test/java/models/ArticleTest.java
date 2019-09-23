@@ -50,7 +50,7 @@ public class ArticleTest {
         assertEquals(5, testArticle.getId());
     }
 
-    // helper
+
     public Article setupArticle(){
         return new Article("Business Daily","Kirubi has just bought all the Apartments in Kileleshwa");
     }
