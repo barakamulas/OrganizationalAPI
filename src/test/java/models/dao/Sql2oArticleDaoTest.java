@@ -28,7 +28,7 @@ public class Sql2oArticleDaoTest {
     }
 
     @Test
-    public void addingFoodSetsId() throws Exception {
+    public void addingArticleSetsId() throws Exception {
         Article testArticle = setupNewArticle();
         int originalArticleId = testArticle.getId();
         articleDao.add(testArticle);
@@ -64,7 +64,7 @@ public class Sql2oArticleDaoTest {
     }
 
 //    @Test
-//    public void addFoodTypeToRestaurantAddsTypeCorrectly() throws Exception {
+//    public void addArticleTypeToRestaurantAddsTypeCorrectly() throws Exception {
 //
 //        Restaurant testRestaurant = setupRestaurant();
 //        Restaurant altRestaurant = setupAltRestaurant();
@@ -83,7 +83,7 @@ public class Sql2oArticleDaoTest {
 //    }
 //
 //    @Test
-//    public void deleteingFoodTypeAlsoUpdatesJoinTable() throws Exception {
+//    public void deleteingArticleTypeAlsoUpdatesJoinTable() throws Exception {
 //        Article testArticle  = setupNewArticle();
 //        articleDao.add(testArticle);
 //
