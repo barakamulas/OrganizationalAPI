@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import exceptions.ApiException;
 import models.Article;
 import models.Department;
 import models.Scopedarticle;
@@ -44,6 +45,26 @@ public class App {
 
         get("/departments/:id", "application/json", (req, res) -> {
             return gson.toJson(departmentDao.findById(Integer.parseInt(req.params("id"))));
+        });
+
+        get("/departments/:id/scopedarticles", "application/json", (req, res) -> {
+            return gson.toJson(departmentDao.getAllScopedarticlesForADepartment(Integer.parseInt(req.params("id"))));
+        });
+
+        post("/departments/:departmentId/scopedarticles/:scopedarticleId", "application/json", (req, res) -> {
+            int departmentId = Integer.parseInt(req.params("departmentId"));
+            int scopedarticleId = Integer.parseInt(req.params("scopedarticleId"));
+            Department department = departmentDao.findById(departmentId);
+            Scopedarticle scopedarticle = scopedarticleDao.findById(scopedarticleId);
+
+            if (department != null && scopedarticle != null){
+                scopedarticleDao.addScopedarticleToDepartment(scopedarticle, department);
+                res.status(201);
+                return gson.toJson(String.format("Department '%s' and Scopedarticle '%s' have been associated",scopedarticle.getName(), department.getName()));
+            }
+            else {
+                throw new ApiException(404, String.format("Department or Scopedarticle does not exist"));
+            }
         });
 
         post("/users/new", "application/json", (req, res) -> {
