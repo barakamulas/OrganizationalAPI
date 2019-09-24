@@ -56,7 +56,7 @@ public class App {
             if (department != null && scopedarticle != null){
                 scopedarticleDao.addScopedarticleToDepartment(scopedarticle, department);
                 res.status(201);
-                return gson.toJson(String.format("Department '%s' and Scopedarticle '%s' have been associated",scopedarticle.getName(), department.getName()));
+                return gson.toJson(String.format("Department '%s' and Scopedarticle '%s' have been associated",scopedarticle.getTitle(), department.getD_name()));
             }
             else {
                 throw new ApiException(404, String.format("Department or Scopedarticle does not exist"));
@@ -112,11 +112,19 @@ public class App {
         });
 
         get("/articles", "application/json", (req, res) -> {
+
             return gson.toJson(articleDao.getAll());
         });
 
         get("/articles/:id", "application/json", (req, res) -> {
-            return gson.toJson(articleDao.findById(Integer.parseInt(req.params("id"))));
+            Scopedarticle scopedarticleToFind = scopedarticleDao.findById(Integer.parseInt(req.params("id")));
+            if (scopedarticleToFind == null){
+                throw new ApiException(404, String.format("No scopedarticle with the id: \"%s\" exists", req.params("id")));
+            }
+            else {
+                return gson.toJson(scopedarticleToFind);
+            }
+
         });
 
 
