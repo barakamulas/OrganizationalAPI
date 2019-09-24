@@ -8,7 +8,11 @@ import java.util.List;
 public interface ScopedarticleDao {
 
     void add(Scopedarticle scopedarticle);
+
+    Scopedarticle findById(int id);
+
     void addScopedarticleToDepartment(Scopedarticle scopedarticle, Department department);
+
     List<Department> getAllDepartmentsForAScopedarticle(int id);
 
     List<Scopedarticle> getAll();

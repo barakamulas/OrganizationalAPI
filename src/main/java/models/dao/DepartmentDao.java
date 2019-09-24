@@ -11,15 +11,13 @@ public interface DepartmentDao {
     void add(Department department);
    
 
+    Department findById(int id);
 
     List<Department> getAll();
     void addDepartmentToScopedarticle(Department department, Scopedarticle scopedarticle);
     List<Scopedarticle> getAllScopedarticlesForADepartment(int departmentId);
 
     //update
-    //omit for now
-
-
 
 
     void deleteById(int id);

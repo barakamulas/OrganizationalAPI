@@ -1,6 +1,7 @@
 import com.google.gson.Gson;
 import models.Article;
 import models.Department;
+import models.Scopedarticle;
 import models.User;
 import models.dao.Sql2oArticleDao;
 import models.dao.Sql2oDepartmentDao;
@@ -28,7 +29,7 @@ public class App {
         userDao = new Sql2oUserDao(sql2o);
         conn = sql2o.open();
 
-        //CREATE
+
         post("/departments/new", "application/json", (req, res) -> {
             Department department = gson.fromJson(req.body(), Department.class);
             departmentDao.add(department);
@@ -60,26 +61,28 @@ public class App {
             return gson.toJson(article);
         });
 
-        //READ
+
         get("/articles", "application/json", (req, res) -> {
             return gson.toJson(articleDao.getAll());
         });
 
-//        get("/departments/:id", "application/json", (req, res) -> {
-//            int departmentId = Integer.parseInt(req.params("id"));
-//            return gson.toJson(departmentDao.findById(departmentId));
-//        });
-//
-//        post("/departments/:departmentId/users/new", "application/json", (req, res) -> {
-//            int departmentId = Integer.parseInt(req.params("departmentId"));
-//            User user = gson.fromJson(req.body(), User.class);
-//            user.setDepartment_id(departmentId); //we need to set this separately because it comes from our route, not our JSON input.
-//            userDao.add(user);
-//            res.status(201);
-//            return gson.toJson(user);
-//        });
+        post("/scopedscopedarticles/new", "application/json", (req, res) -> {
+            Scopedarticle scopedarticle  = gson.fromJson(req.body(), Scopedarticle.class);
+            scopedarticleDao.add(scopedarticle);
+            res.status(201);;
+            return gson.toJson(scopedarticle);
+        });
 
-        //FILTERS
+        get("/scopedarticles", "application/json", (req, res) -> {
+            return gson.toJson(scopedarticleDao.getAll());
+        });
+
+
+
+
+
+
+
         after((req, res) ->{
             res.type("application/json");
         });

@@ -29,6 +29,15 @@ public class Sql2oScopedarticleDao implements ScopedarticleDao {
     }
 
     @Override
+    public Scopedarticle findById(int id) {
+        try(Connection con = sql2o.open()){
+            return con.createQuery("SELECT * FROM scoped_articles WHERE id = :id")
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Scopedarticle.class);
+        }
+    }
+
+    @Override
     public List<Scopedarticle> getAll() {
         try(Connection con = sql2o.open()){
             return con.createQuery("SELECT * FROM scoped_articles")

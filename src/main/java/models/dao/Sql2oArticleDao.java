@@ -28,6 +28,16 @@ public class Sql2oArticleDao implements ArticleDao {
     }
 
     @Override
+    public Article findById(int id) {
+        try(Connection con = sql2o.open()){
+            return con.createQuery("SELECT * FROM articles WHERE id = :id")
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Article.class);
+        }
+    }
+
+
+    @Override
     public List<Article> getAll() {
         try(Connection con = sql2o.open()){
             return con.createQuery("SELECT * FROM articles")

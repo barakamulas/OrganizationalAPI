@@ -10,7 +10,7 @@ public interface ArticleDao {
     void add(Article article);
 
     List<Article> getAll();
-
+    Article findById(int id);
 
     //update
     //omit for now

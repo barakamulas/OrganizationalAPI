@@ -1,5 +1,6 @@
 package models.dao;
 
+import models.Article;
 import models.Department;
 import models.Department;
 import models.Scopedarticle;
@@ -26,6 +27,15 @@ public class Sql2oDepartmentDao implements DepartmentDao {
             department.setId(id);
         } catch (Sql2oException ex) {
             System.out.println(ex);
+        }
+    }
+
+    @Override
+    public Department findById(int id) {
+        try(Connection con = sql2o.open()){
+            return con.createQuery("SELECT * FROM departments WHERE id = :id")
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Department.class);
         }
     }
 

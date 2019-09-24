@@ -9,6 +9,8 @@ public interface UserDao {
 
     void add(User article);
 
+    User findById(int id);
+
     List<User> getAll();
 
     //update
