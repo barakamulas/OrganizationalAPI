@@ -47,10 +47,6 @@ public class App {
             return gson.toJson(departmentDao.findById(Integer.parseInt(req.params("id"))));
         });
 
-        get("/departments/:id/scopedarticles", "application/json", (req, res) -> {
-            return gson.toJson(departmentDao.getAllScopedarticlesForADepartment(Integer.parseInt(req.params("id"))));
-        });
-
         post("/departments/:departmentId/scopedarticles/:scopedarticleId", "application/json", (req, res) -> {
             int departmentId = Integer.parseInt(req.params("departmentId"));
             int scopedarticleId = Integer.parseInt(req.params("scopedarticleId"));
@@ -64,6 +60,34 @@ public class App {
             }
             else {
                 throw new ApiException(404, String.format("Department or Scopedarticle does not exist"));
+            }
+        });
+
+        get("/departments/:id/scopedarticles", "application/json", (req, res) -> {
+            int departmentId = Integer.parseInt(req.params("id"));
+            Department departmentToFind = departmentDao.findById(departmentId);
+            if (departmentToFind == null){
+                throw new ApiException(404, String.format("No department with the id: \"%s\" exists", req.params("id")));
+            }
+            else if (departmentDao.getAllScopedarticlesForADepartment(departmentId).size()==0){
+                return "{\"message\":\"I'm sorry, but no scopedarticles are listed for this department.\"}";
+            }
+            else {
+                return gson.toJson(departmentDao.getAllScopedarticlesForADepartment(departmentId));
+            }
+        });
+
+        get("/scopedarticles/:id/departments", "application/json", (req, res) -> {
+            int scopedarticleId = Integer.parseInt(req.params("id"));
+            Scopedarticle scopedarticleToFind = scopedarticleDao.findById(scopedarticleId);
+            if (scopedarticleToFind == null){
+                throw new ApiException(404, String.format("No scopedarticle with the id: \"%s\" exists", req.params("id")));
+            }
+            else if (scopedarticleDao.getAllDepartmentsForAScopedarticle(scopedarticleId).size()==0){
+                return "{\"message\":\"I'm sorry, but no departments are listed for this scopedarticle.\"}";
+            }
+            else {
+                return gson.toJson(scopedarticleDao.getAllDepartmentsForAScopedarticle(scopedarticleId));
             }
         });
 
