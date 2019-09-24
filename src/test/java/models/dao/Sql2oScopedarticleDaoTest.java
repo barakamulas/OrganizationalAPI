@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 public class Sql2oScopedarticleDaoTest {
@@ -67,7 +69,7 @@ public class Sql2oScopedarticleDaoTest {
     }
 
     @Test
-    public void addScopedarticleTypeToDepartmentAddsTypeCorrectly() throws Exception {
+    public void addScopedarticleToDepartmentAddsTypeCorrectly() throws Exception {
 
         Department testDepartment = setupDepartment();
         Department altDepartment = setupAltDepartment();
@@ -82,10 +84,31 @@ public class Sql2oScopedarticleDaoTest {
         scopedarticleDao.addScopedarticleToDepartment(testScopedarticle, testDepartment);
         scopedarticleDao.addScopedarticleToDepartment(testScopedarticle, altDepartment);
 
-        assertEquals(2, scopedarticleDao.getAllDepartmentsForAScopedarticle(testScopedarticle.getId()).size());
+        Department[] departments = {testDepartment,altDepartment};
+
+        assertEquals(Arrays.asList(departments), scopedarticleDao.getAllDepartmentsForAScopedarticle(testScopedarticle.getId()));
     }
 
+    @Test
+    public void deleteingFoodTypeAlsoUpdatesJoinTable() throws Exception {
+        Scopedarticle testScopedarticle  = setupNewScopedarticle();
+        scopedarticleDao.add(testScopedarticle);
 
+        Scopedarticle altTestScopedarticle  = new Scopedarticle("Seafood","the best in the world");
+        scopedarticleDao.add(altTestScopedarticle);
+
+        Department testDepartment = setupDepartment();
+        departmentDao.add(testDepartment);
+
+        Department altDepartment = setupAltDepartment();
+        departmentDao.add(altDepartment);
+
+        scopedarticleDao.addScopedarticleToDepartment(testScopedarticle,testDepartment);
+        scopedarticleDao.addScopedarticleToDepartment(altTestScopedarticle, altDepartment);
+
+        scopedarticleDao.deleteById(testScopedarticle.getId());
+        assertEquals(0, scopedarticleDao.getAllDepartmentsForAScopedarticle(testScopedarticle.getId()).size());
+    }
 
 
 

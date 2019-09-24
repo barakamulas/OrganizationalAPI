@@ -47,22 +47,6 @@ public class Sql2oArticleDao implements ArticleDao {
         }
     }
 
-//    @Override
-//    public void deleteById(int id) {
-//        String sql = "DELETE from articles WHERE id=:id"; //raw sql
-//        String joinSql = "DELETE from restaurants_articles WHERE articleId = :articleId";
-//        try (Connection con = sql2o.open()) {
-//            con.createQuery(sql)
-//                    .addParameter("id", id)
-//                    .executeUpdate();
-//            con.createQuery(joinSql)
-//                    .addParameter("articleId", id)
-//                    .executeUpdate();
-//        } catch (Sql2oException ex){
-//            System.out.println(ex);
-//        }
-//    }
-
     @Override
     public void clearAll() {
         String sql = "DELETE from articles";
@@ -73,44 +57,4 @@ public class Sql2oArticleDao implements ArticleDao {
         }
     }
 
-
-
-
-
-//    @Override
-//    public void addArticleToRestaurant(Article article, Restaurant restaurant){
-//        String sql = "INSERT INTO restaurants_articles (restaurantid, articleid) VALUES (:restaurantId, :articleId)";
-//        try (Connection con = sql2o.open()) {
-//            con.createQuery(sql)
-//                    .addParameter("restaurantId", restaurant.getId())
-//                    .addParameter("articleId", article.getId())
-//                    .executeUpdate();
-//        } catch (Sql2oException ex){
-//            System.out.println(ex);
-//        }
-//    }
-
-//    @Override
-//    public List<Restaurant> getAllRestaurantsForArticle(int articleId) {
-//
-//        ArrayList<Restaurant> restaurants = new ArrayList<>();
-//
-//        String joinQuery = "SELECT restaurantid FROM restaurants_articles WHERE articleid = :articleId";
-//
-//        try (Connection con = sql2o.open()) {
-//            List<Integer> allRestaurantIds = con.createQuery(joinQuery)
-//                    .addParameter("articleId", articleId)
-//                    .executeAndFetch(Integer.class); //what is happening in the lines above?
-//            for (Integer restaurantId : allRestaurantIds){
-//                String restaurantQuery = "SELECT * FROM restaurants WHERE id = :restaurantId";
-//                restaurants.add(
-//                        con.createQuery(restaurantQuery)
-//                                .addParameter("restaurantId", restaurantId)
-//                                .executeAndFetchFirst(Restaurant.class));
-//            } //why are we doing a second sql query - set?
-//        } catch (Sql2oException ex){
-//            System.out.println(ex);
-//        }
-//        return restaurants;
-//    }
 }

@@ -39,8 +39,12 @@ public class Sql2oScopedarticleDao implements ScopedarticleDao {
     @Override
     public void deleteById(int id) {
         String sql = "DELETE from scoped_articles WHERE id=:id";
+        String joinSql = "DELETE from departments_scopedarticles WHERE scopedarticle_id=:id";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeUpdate();
+            con.createQuery(joinSql)
                     .addParameter("id", id)
                     .executeUpdate();
         } catch (Sql2oException ex){
@@ -51,8 +55,10 @@ public class Sql2oScopedarticleDao implements ScopedarticleDao {
     @Override
     public void clearAll() {
         String sql = "DELETE from scoped_articles";
+        String joinSql = "DELETE from departments_scopedarticles";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql).executeUpdate();
+            con.createQuery(joinSql).executeUpdate();
         } catch (Sql2oException ex) {
             System.out.println(ex);
         }
@@ -79,16 +85,16 @@ public class Sql2oScopedarticleDao implements ScopedarticleDao {
         String joinQuery = "SELECT department_id FROM departments_scopedarticles WHERE scopedarticle_id = :scopedarticle_id";
 
         try (Connection con = sql2o.open()) {
-            List<Integer> allDepartment_ids = con.createQuery(joinQuery)
+            List<Integer> allDepartmentIds = con.createQuery(joinQuery)
                     .addParameter("scopedarticle_id", scopedarticle_id)
                     .executeAndFetch(Integer.class); //what is happening in the lines above?
-            for (Integer department_id : allDepartment_ids){
+            for (Integer department_id : allDepartmentIds){
                 String departmentQuery = "SELECT * FROM departments WHERE id = :department_id";
                 departments.add(
                         con.createQuery(departmentQuery)
                                 .addParameter("department_id", department_id)
                                 .executeAndFetchFirst(Department.class));
-            }
+            } //why are we doing a second sql query - set?
         } catch (Sql2oException ex){
             System.out.println(ex);
         }

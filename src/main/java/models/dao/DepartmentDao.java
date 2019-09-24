@@ -9,14 +9,17 @@ import java.util.List;
 public interface DepartmentDao {
 
     void add(Department department);
+   
 
 
     List<Department> getAll();
+    void addDepartmentToScopedarticle(Department department, Scopedarticle scopedarticle);
+    List<Scopedarticle> getAllScopedarticlesForADepartment(int departmentId);
 
     //update
     //omit for now
 
-//    List<Scopedarticle> getAllScopedarticlesForDepartment(Department department);
+
 
 
     void deleteById(int id);

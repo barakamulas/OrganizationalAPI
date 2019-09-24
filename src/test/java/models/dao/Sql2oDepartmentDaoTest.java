@@ -1,18 +1,21 @@
 package models.dao;
 
 import models.Department;
+import models.Scopedarticle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 public class Sql2oDepartmentDaoTest {
 
 
-
+    private Sql2oScopedarticleDao scopedarticleDao;
     private Sql2oDepartmentDao departmentDao;
     private Connection conn;
 
@@ -21,6 +24,7 @@ public class Sql2oDepartmentDaoTest {
         String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
         Sql2o sql2o = new Sql2o(connectionString, "", "");
         departmentDao = new Sql2oDepartmentDao(sql2o);
+        scopedarticleDao = new Sql2oScopedarticleDao(sql2o);
         conn = sql2o.open();
     }
 
@@ -65,6 +69,34 @@ public class Sql2oDepartmentDaoTest {
         departmentDao.add(otherDepartment);
         departmentDao.clearAll();
         assertEquals(0, departmentDao.getAll().size());
+    }
+    @Test
+    public void DepartmentReturnsScopedarticlesCorrectly() throws Exception {
+        Scopedarticle testScopedarticle  = new Scopedarticle("Seafood","The best in the world");
+        scopedarticleDao.add(testScopedarticle);
+        Scopedarticle otherScopedarticle  = new Scopedarticle("Bar Food", "Nyama choma and beer");
+        scopedarticleDao.add(otherScopedarticle);
+        Department testDepartment = setupDepartment();
+        departmentDao.add(testDepartment);
+        departmentDao.addDepartmentToScopedarticle(testDepartment,testScopedarticle);
+        departmentDao.addDepartmentToScopedarticle(testDepartment,otherScopedarticle);
+        assertEquals(2, departmentDao.getAllScopedarticlesForADepartment(testDepartment.getId()).size());
+    }
+
+
+
+    @Test
+    public void deleteingDepartmentAlsoUpdatesJoinTable() throws Exception {
+        Scopedarticle testScopedarticle  = new Scopedarticle("Seafood", "the best in the world");
+        scopedarticleDao.add(testScopedarticle);
+        Department testDepartment = setupDepartment();
+        departmentDao.add(testDepartment);
+        Department altDepartment = setupAltDepartment();
+        departmentDao.add(altDepartment);
+        departmentDao.addDepartmentToScopedarticle(testDepartment,testScopedarticle);
+        departmentDao.addDepartmentToScopedarticle(altDepartment, testScopedarticle);
+        departmentDao.deleteById(testDepartment.getId());
+        assertEquals(0, departmentDao.getAllScopedarticlesForADepartment(testDepartment.getId()).size());
     }
 
 
