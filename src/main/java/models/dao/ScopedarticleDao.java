@@ -11,6 +11,7 @@ public interface ScopedarticleDao {
     void addScopedarticleToDepartment(Scopedarticle scopedarticle, Department department);
 
     List<Scopedarticle> getAll();
+    List<Department> getAllDepartmentsForAScopedarticle(int scopedarticle_id);
 
     //update
     //omit for now

@@ -66,42 +66,42 @@ public class Sql2oScopedarticleDaoTest {
         assertEquals(0, scopedarticleDao.getAll().size());
     }
 
-//    @Test
-//    public void addScopedarticleTypeToDepartmentAddsTypeCorrectly() throws Exception {
-//
-//        Department testDepartment = setupDepartment();
-//        Department altDepartment = setupAltDepartment();
-//
-//        departmentDao.add(testDepartment);
-//        departmentDao.add(altDepartment);
-//
-//        Scopedarticle testScopedarticle = setupNewScopedarticle();
-//
-//        scopedarticleDao.add(testScopedarticle);
-//
-//        scopedarticleDao.addScopedarticleToDepartment(testScopedarticle, testDepartment);
-//        scopedarticleDao.addScopedarticleToDepartment(testScopedarticle, altDepartment);
-//
-//        assertEquals(2, scopedarticleDao.getAllDepartmentsForAScopedarticle(testScopedarticle.getId()).size());
-//    }
+    @Test
+    public void addScopedarticleTypeToDepartmentAddsTypeCorrectly() throws Exception {
+
+        Department testDepartment = setupDepartment();
+        Department altDepartment = setupAltDepartment();
+
+        departmentDao.add(testDepartment);
+        departmentDao.add(altDepartment);
+
+        Scopedarticle testScopedarticle = setupNewScopedarticle();
+
+        scopedarticleDao.add(testScopedarticle);
+
+        scopedarticleDao.addScopedarticleToDepartment(testScopedarticle, testDepartment);
+        scopedarticleDao.addScopedarticleToDepartment(testScopedarticle, altDepartment);
+
+        assertEquals(2, scopedarticleDao.getAllDepartmentsForAScopedarticle(testScopedarticle.getId()).size());
+    }
 
 
 
 
 
     public Scopedarticle setupNewScopedarticle() {
-        return new Scopedarticle("Ballon D'or A Scam","In a controversial manner Messi pipped Van Dijk to win the Ballon D'or for the sixth time",1);
+        return new Scopedarticle("Ballon D'or A Scam","In a controversial manner Messi pipped Van Dijk to win the Ballon D'or for the sixth time");
     }
-//    public Department setupAltDepartment (){
-//        Department department = new Department("Sports", "Handles the sports segment", 10);
-//        departmentDao.add(department);
-//        return department;
-//    }
-//
-//    public Department setupDepartment (){
-//        Department department = new Department("Business", "Keeping track of business related news", 6);
-//        departmentDao.add(department);
-//        return department;
-//    }
+    public Department setupAltDepartment (){
+        Department department = new Department("Sports", "Handles the sports segment", 10);
+        departmentDao.add(department);
+        return department;
+    }
+
+    public Department setupDepartment (){
+        Department department = new Department("Business", "Keeping track of business related news", 6);
+        departmentDao.add(department);
+        return department;
+    }
 
 }

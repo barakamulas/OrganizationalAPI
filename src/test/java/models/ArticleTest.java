@@ -37,6 +37,12 @@ public class ArticleTest {
     }
 
     @Test
+    public void getType() {
+        Article testArticle = setupArticle();
+        assertEquals("Not Scoped", testArticle.getType());
+    }
+
+    @Test
     public void setTitle() {
         Article testArticle = setupArticle();
         testArticle.setTitle("Corporate News");

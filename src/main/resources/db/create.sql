@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS scoped_articles (
  id int PRIMARY KEY auto_increment,
  title VARCHAR,
  content VARCHAR,
- department_id INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS departments (
@@ -25,6 +24,12 @@ CREATE TABLE IF NOT EXISTS departments (
  d_name VARCHAR,
  description VARCHAR,
  no_of_employees INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS departments_scopedarticles (
+ id int PRIMARY KEY auto_increment,
+ department_id INTEGER,
+ scopedarticle_id INTEGER
 );
 
 

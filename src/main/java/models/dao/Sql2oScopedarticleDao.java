@@ -16,7 +16,7 @@ public class Sql2oScopedarticleDao implements ScopedarticleDao {
 
     @Override
     public void add(Scopedarticle scopedarticle) {
-        String sql = "INSERT INTO scoped_articles (title, content, department_id) VALUES (:title, :content, :department_id)";
+        String sql = "INSERT INTO scoped_articles (title, content) VALUES (:title, :content)";
         try(Connection con = sql2o.open()){
             int id = (int) con.createQuery(sql, true)
                     .bind(scopedarticle)
@@ -60,7 +60,7 @@ public class Sql2oScopedarticleDao implements ScopedarticleDao {
 
     @Override
     public void addScopedarticleToDepartment(Scopedarticle scopedarticle, Department department){
-        String sql = "INSERT INTO scopedarticles (department_id, scopedarticle_id) VALUES (:department_id, :scopedarticle_id)";
+        String sql = "INSERT INTO departments_scopedarticles (department_id, scopedarticle_id) VALUES (:department_id, :scopedarticle_id)";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .addParameter("department_id", department.getId())
@@ -69,6 +69,30 @@ public class Sql2oScopedarticleDao implements ScopedarticleDao {
         } catch (Sql2oException ex){
             System.out.println(ex);
         }
+    }
+
+    @Override
+    public List<Department> getAllDepartmentsForAScopedarticle(int scopedarticle_id) {
+
+        ArrayList<Department> departments = new ArrayList<>();
+
+        String joinQuery = "SELECT department_id FROM departments_scopedarticles WHERE scopedarticle_id = :scopedarticle_id";
+
+        try (Connection con = sql2o.open()) {
+            List<Integer> allDepartment_ids = con.createQuery(joinQuery)
+                    .addParameter("scopedarticle_id", scopedarticle_id)
+                    .executeAndFetch(Integer.class); //what is happening in the lines above?
+            for (Integer department_id : allDepartment_ids){
+                String departmentQuery = "SELECT * FROM departments WHERE id = :department_id";
+                departments.add(
+                        con.createQuery(departmentQuery)
+                                .addParameter("department_id", department_id)
+                                .executeAndFetchFirst(Department.class));
+            }
+        } catch (Sql2oException ex){
+            System.out.println(ex);
+        }
+        return departments;
     }
 
 

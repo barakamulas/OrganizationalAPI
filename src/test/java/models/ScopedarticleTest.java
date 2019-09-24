@@ -44,17 +44,12 @@ public class ScopedarticleTest {
     }
 
     @Test
-    public void getDepartment_id() {
+    public void getType_scoped() {
         Scopedarticle testScopedarticle = setupScopedarticle();
-        assertEquals(1, testScopedarticle.getDepartment_id());
+        assertEquals("Scoped", testScopedarticle.getType());
     }
 
-    @Test
-    public void setDepartment_id() {
-        Scopedarticle testScopedarticle = setupScopedarticle();
-        testScopedarticle.setDepartment_id(2);
-        assertNotEquals(1, testScopedarticle.getDepartment_id());
-    }
+
 
     @Test
     public void setId() {
@@ -65,7 +60,7 @@ public class ScopedarticleTest {
 
 
     public Scopedarticle setupScopedarticle(){
-        return new Scopedarticle("Business Daily","Kirubi has just bought all the Apartments in Kileleshwa",1);
+        return new Scopedarticle("Business Daily","Kirubi has just bought all the Apartments in Kileleshwa");
     }
 
 }

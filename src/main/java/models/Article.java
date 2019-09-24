@@ -7,10 +7,23 @@ public class Article {
     public int id;
     public String title;
     public String content;
+    public String type;
+    public static final String TYPE = "Not Scoped";
+
+
 
     public Article(String title, String content) {
         this.title = title;
         this.content = content;
+        this.type = TYPE;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getId() {
@@ -43,11 +56,12 @@ public class Article {
         if (o == null || getClass() != o.getClass()) return false;
         Article article = (Article) o;
         return getTitle().equals(article.getTitle()) &&
-                getContent().equals(article.getContent());
+                getContent().equals(article.getContent()) &&
+                getType().equals(article.getType());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTitle(), getContent());
+        return Objects.hash(getTitle(), getContent(), getType());
     }
 }

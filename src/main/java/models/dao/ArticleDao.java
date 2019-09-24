@@ -11,6 +11,7 @@ public interface ArticleDao {
 
     List<Article> getAll();
 
+
     //update
     //omit for now
 
