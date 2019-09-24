@@ -42,10 +42,14 @@ public class App {
             return gson.toJson(departmentDao.getAll());
         });
 
+        get("/departments/:id", "application/json", (req, res) -> {
+            return gson.toJson(departmentDao.findById(Integer.parseInt(req.params("id"))));
+        });
+
         post("/users/new", "application/json", (req, res) -> {
             User user  = gson.fromJson(req.body(), User.class);
             userDao.add(user);
-            res.status(201);;
+            res.status(201);
             return gson.toJson(user);
         });
 
@@ -54,6 +58,7 @@ public class App {
             return gson.toJson(articleDao.getAll());
         });
 
+
         post("/articles/new", "application/json", (req, res) -> {
             Article article  = gson.fromJson(req.body(), Article.class);
             articleDao.add(article);
@@ -61,10 +66,14 @@ public class App {
             return gson.toJson(article);
         });
 
-
         get("/articles", "application/json", (req, res) -> {
             return gson.toJson(articleDao.getAll());
         });
+
+        get("/articles/:id", "application/json", (req, res) -> {
+            return gson.toJson(articleDao.findById(Integer.parseInt(req.params("id"))));
+        });
+
 
         post("/scopedscopedarticles/new", "application/json", (req, res) -> {
             Scopedarticle scopedarticle  = gson.fromJson(req.body(), Scopedarticle.class);
@@ -77,10 +86,9 @@ public class App {
             return gson.toJson(scopedarticleDao.getAll());
         });
 
-
-
-
-
+        get("/scopedarticles/:id", "application/json", (req, res) -> {
+            return gson.toJson(scopedarticleDao.findById(Integer.parseInt(req.params("id"))));
+        });
 
 
         after((req, res) ->{
